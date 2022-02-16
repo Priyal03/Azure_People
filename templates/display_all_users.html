@@ -1,0 +1,27 @@
+<h1>Priyal Patel</h1>
+<h1>1001886118</h1>
+<br>
+
+<table>
+
+	<tr>
+		<th>Name</th>
+		<th>State</th>
+		<th>Salary</th>
+		<th>Grade</th>
+		<th>Room</th>
+		<th>Telnum</th>
+		<th>Picture</th>
+		<th>Keywords</th>
+	</tr>
+
+	{% for row in jsonfile %}
+	<tr>
+		{% for cell in row %}
+		<td>{{ cell }}</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+</br>
+<a href="{{ url_for('hello_world') }}">Go back to Home Page</a>

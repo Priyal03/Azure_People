@@ -1,0 +1,45 @@
+<h1>Priyal Patel</h1>
+<h1>1001886118</h1>
+
+<br>
+
+<form action="search_sal" method="post">
+	<label>Enter base limit Salary</label>
+	<input type="number" name="sal_start">
+	<label>Enter end limit salary</label>
+	<input type="number" name="sal_end">
+	<br>
+	<input type="submit" name="sal_submit" value="Search by Salary Range">
+</form>
+
+<br>
+
+
+{% if result == False %}
+	No result
+{% else %}
+<table>
+	<tr>
+		<th>Name</th>
+		<th>State</th>
+		<th>Salary</th>
+		<th>Grade</th>
+		<th>Room</th>
+		<th>Telnum</th>
+		<th>Picture</th>
+		<th>Keywords</th>
+	</tr>
+
+{% for row in jsonfile %}
+	<tr>
+		{% for cell in row %}
+		<td>{{ cell }}</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+
+</br>
+<a href="{{ url_for('hello_world') }}">Go back to Home Page</a>
+

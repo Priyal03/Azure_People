@@ -1,0 +1,44 @@
+<h1>Priyal Patel</h1>
+<h1>1001886118</h1>
+
+
+<h1>Update</h1>
+<br>
+
+<form action="/update" method="post">
+	
+	<label>Select Name</label>
+<!--	<input type="number" name="room"><br>-->
+	<select name="opt">
+		{% for room in result %}
+		<option value = "{{ room[0] }}">{{ room[0] }}</option>
+		{% endfor %}
+	</select>
+	<label>Salary</label>
+	<input type="number" name="salary"><br>
+	<label>Keywords</label>
+	<input type="text" name="keywords"><br>
+
+	<input type="submit" name="add_people_submit" value="Update">
+
+</form>
+</br>
+{% if result == False %}
+	No result
+{% else %}
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Salary</th>
+		<th>Keywords</th>
+	</tr>
+{% for det in result %}
+	<tr>
+		<td>{{ det[0] }}</td>
+		<td>{{ det[1] }}</td>
+		<td>{{ det[2] }}</td>
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+<a href="{{ url_for('hello_world') }}">Go back to Home Page</a>
