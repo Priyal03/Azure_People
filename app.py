@@ -10,10 +10,6 @@ app = Flask(__name__)
 print(os.getenv("PORT"))
 port = int(os.getenv("PORT", 8000))
 
-
-#cursor = connect.cursor()
-print("Opened database successfully")
-
 # retrieve all the users picture with file names and size and image loaded.
 # search for a name and show his picture on the web
 # display all pics where salary is < 1000 ------ focus on this tmrw
@@ -23,75 +19,55 @@ print("Opened database successfully")
 # change keyword for a user
 # change salary for a user
 
-
-# default
 @app.route('/', methods=["GET"])
 def hello_world():
     return render_template('index.html', result={})
 
-
 @app.route('/display_all_users', methods=["GET"])
 def display():
+    
     return render_template('display_all_users.html', jsonfile=readAllUsers())
-
 
 @app.route('/add_a_pic_for_user', methods=["GET"])
 def display_two():
     return render_template('display_all_users.html', jsonfile=readAllUsers())
    
-
-# get the name and sizes of the file stored on cloud.
 @app.route('/list_files', methods=["GET"])
 def list_files():
 
     sql = "SELECT name,picture from people"
     cursor.execute(sql)
-    output = cursor.fetchall()
+    return render_template('list_files.html', result=cursor.fetchall())
 
-    files_dict = {}
-    files_list = os.listdir('./static/pics/')
-    for file in files_list:
-        file_name = './static/pics/' + file
-        files_dict[file] = os.stat(file_name).st_size
-
-
-    return render_template('list_files.html', result=files_dict)
-
-
-@app.route('/search_sal', methods=["GET"])
+@app.route('/searchSalary', methods=["GET"])
 def search_room():
     ret = []
     return render_template('salary_search.html', result=ret)
 
-
-# search by name function
-@app.route('/search_sal', methods=["POST"])
+@app.route('/searchSalary', methods=["POST"])
 def search_by_room():
-    sal_st = request.form["sal_start"]
-    sal_end = request.form["sal_end"]
-    if sal_st == '' and sal_end == '':
-        sal_st = 0
-        sal_end = 0
-    if sal_st == '':
-        sal_st = 0
-    if sal_end == '':
-        sal_end = 0
-    cur = getCursor()
-    cur.execute(
-        'SELECT * FROM people WHERE Salary between %s and %s ', (sal_st, sal_end, ))
-    result = cur.fetchall()
-    print(json.dumps(result))
-    return render_template('salary_search.html', jsonfile=result)
-
+    salary_start = request.form["salary_start"]
+    salary_end = request.form["salary_end"]
+    if salary_start == '' and salary_end == '':
+        salary_start = 0
+        salary_end = 0
+    if salary_start == '':
+        salary_start = 0
+    if salary_end == '':
+        salary_end = 0
+    cursor = getCursor()
+    cursor.execute(
+        'SELECT * FROM people WHERE Salary between %s and %s ', (salary_start, salary_end,))    
+    return render_template('salary_search.html', jsonfile=cursor.fetchall())
 
 @app.route('/show_pic_by_name', methods=["GET"])
 def show_pic():
     return render_template('show_pic_by_name.html')
 
-
-
 ##below two method's code taken from here : https://tomlogs.github.io/build-a-photos-application-with-azure-blob-storage
-connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING') # retrieve the connection string from the environment variable
+#connect_str = (os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+connect_str ="DefaultEndpointsProtocol=;AccountName=;AccountKey=;EndpointSuffix=" # retrieve the connection string from the environment variable
+print(connect_str)
 container_name = "firstcontainer"#"photos" # container name in which images will be store in the storage account
 #CONTAINER_NAME = os.getenv('AZURE_CONTAINER_NAME')
 blob_service_client = BlobServiceClient.from_connection_string(conn_str=connect_str) # create a blob service client to interact with the storage account
@@ -193,7 +169,7 @@ def show_pic_name():
     
     return render_template('show_pic_by_name.html',pictureName=pictureName, username=username,url=url,size=size )
 
-@app.route('/update', methods=["GET"])
+@app.route('/updateSalary', methods=["GET"])
 def update_by_room():
    
     cur = getCursor()
@@ -204,7 +180,7 @@ def update_by_room():
     return render_template('update.html', result=result)
 
 
-@app.route('/update', methods=["POST"])
+@app.route('/updateSalary', methods=["POST"])
 def update():
     name = request.form.get('opt')
     salary = request.form["salary"]

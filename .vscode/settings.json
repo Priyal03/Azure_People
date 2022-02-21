@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/cc5c0f56-5715-4f1c-9d8c-18e88f0e3e07/resourceGroups/Assignment1/providers/Microsoft.Web/sites/PeopleCloudStorage",
+    "appService.deploySubpath": "."
+}

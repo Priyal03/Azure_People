@@ -7,13 +7,7 @@
 		<th>Image</th>
 		<th>Size</th>
 	</tr>
-{% for fname, fimage, fsize in result.items() %}
-	<tr>
-		<td>{{ fname }}</td>
-		<td>{{ fimage }}</td>
-		<td>{{ fsize }} bytes</td>
-	</tr>
-{% endfor %}
+
 </table>
 </br>
 <a href="{{ url_for('hello_world') }}">Go back to Home Page</a>
